@@ -1,15 +1,18 @@
+import { BaseEntity } from "./base.entity";
 import { Statement } from "./statement.entity";
 
 export type ChoreographyProps = {
+  id?: string;
   name: string;
   statements: Statement[];
 };
 
-export class Choreography {
+export class Choreography extends BaseEntity {
   readonly #name: string;
   #statements: Statement[];
 
   constructor(props: ChoreographyProps) {
+    super({ id: props.id });
     this.#name = props.name;
     this.#statements = props.statements;
   }
