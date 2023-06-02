@@ -9,8 +9,8 @@ import {
 
 type FileColumns = {
   timestamp: string;
-  name: string;
-  user: string;
+  username: string;
+  affectedUser: string;
   context: string;
   component: string;
   eventName: string;
@@ -58,8 +58,8 @@ export const MOODLE_CONFIG: MoodleRuleConfig[] = [
         id: "{{ randomUuid }}",
         definition: {
           name: {
-            "en-us": "{{ event_context }}",
-            pt: "{{ event_context }}",
+            "en-us": "{{ context }}",
+            pt: "{{ context }}",
           },
         },
       },
@@ -72,7 +72,7 @@ export const MOODLE_CONFIG: MoodleRuleConfig[] = [
         extensions: {
           timestamp: "{{ timestamp }}",
           description: "{{ description }}",
-          event: "{{ event_name }}",
+          event: "{{ eventName }}",
         },
       },
     },
