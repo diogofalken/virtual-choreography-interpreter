@@ -1,11 +1,4 @@
-import { LanguageKeys } from "../domain/types/languages.types";
-import {
-  ActorType,
-  ContextType,
-  ObjectType,
-  PlaceType,
-  VerbType,
-} from "../domain/types/xapi-elements.types";
+import { BaseRuleConfig } from "./base.config";
 
 type FileColumns = {
   timestamp: string;
@@ -19,22 +12,9 @@ type FileColumns = {
   ip: string;
 };
 
-export type MoodleLog = Map<keyof FileColumns, string>;
+export type MoodleLog = Record<keyof FileColumns, string>;
 
-type MoodleRuleConfig = {
-  pattern: {
-    event: Record<LanguageKeys, string>;
-  };
-  generate: {
-    actor: ActorType;
-    verb: VerbType;
-    object: ObjectType;
-    place: PlaceType;
-    context: ContextType;
-  };
-};
-
-export const MOODLE_CONFIG: MoodleRuleConfig[] = [
+export const MOODLE_CONFIG: BaseRuleConfig[] = [
   {
     pattern: {
       event: {
@@ -55,7 +35,7 @@ export const MOODLE_CONFIG: MoodleRuleConfig[] = [
         },
       },
       object: {
-        id: "{{ randomUuid }}",
+        id: "{{ randomUUID }}",
         definition: {
           name: {
             "en-us": "{{ context }}",
@@ -64,11 +44,11 @@ export const MOODLE_CONFIG: MoodleRuleConfig[] = [
         },
       },
       place: {
-        id: "{{ randomUuid }}",
+        id: "{{ randomUUID }}",
         name: "{{ component }}",
       },
       context: {
-        id: "{{ randomUuid }}",
+        id: "{{ randomUUID }}",
         extensions: {
           timestamp: "{{ timestamp }}",
           description: "{{ description }}",

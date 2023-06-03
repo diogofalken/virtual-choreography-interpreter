@@ -1,3 +1,5 @@
+import { randomUUID } from "node:crypto";
+
 type BaseEntityProps = {
   id?: string;
   createdAt?: Date;
@@ -21,7 +23,7 @@ export class BaseEntity {
 
   constructor(props?: BaseEntityProps) {
     const now = new Date();
-    this.#id = props?.id ?? crypto.randomUUID();
+    this.#id = props?.id ?? randomUUID();
     this.#createdAt = props?.createdAt ?? now;
     this.#updatedAt = props?.updatedAt ?? now;
   }
