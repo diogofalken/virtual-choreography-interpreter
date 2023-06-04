@@ -1,0 +1,34 @@
+import { Statement } from "../../../domain/entities/statement.entity";
+import type { StatementRepository } from "../../../domain/repositories/statement.repository";
+import { ConfigMatcherHelper } from "../../helpers/config-matcher.helper";
+
+type CreateStatementsFromLogsUseCaseInput = {
+  logs: Record<string, string>[];
+  config: "MOODLE_CONFIG";
+};
+
+type CreateStatementsFromLogsUseCaseOutput = ReturnType<Statement["toJson"]>[];
+
+export class CreateStatementsFromLogsUseCase {
+  constructor(private readonly statementRepository: StatementRepository) {}
+
+  public async execute(
+    input: CreateStatementsFromLogsUseCaseInput
+  ): Promise<CreateStatementsFromLogsUseCaseOutput> {
+    const { logs, config } = input;
+
+    const configMatcherHelper = new ConfigMatcherHelper();
+
+    for (const log of logs) {
+      const statement = configMatcherHelper.convertLog(config, log);
+
+      if (statement) {
+        await this.statementRepository.create(statement);
+      }
+    }
+
+    return (await this.statementRepository.findAll()).map((statement) =>
+      statement.toJson()
+    );
+  }
+}
