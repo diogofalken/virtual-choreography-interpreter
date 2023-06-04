@@ -1,4 +1,8 @@
-import { LanguageKeys } from "./languages.types";
+/**
+ * In the future if we want to extend this to multiple
+ * languages we can use the following structure:
+ * definition: { name: { [key in LanguageKeys]: string } };
+ */
 
 export type ActorType = {
   id: string;
@@ -7,12 +11,12 @@ export type ActorType = {
 
 export type VerbType = {
   id: string;
-  display: { [key in LanguageKeys]: string };
+  display: string;
 };
 
 export type ObjectType = {
   id: string;
-  definition: { name: { [key in LanguageKeys]: string } };
+  definition: { name: string };
 };
 
 export type PlaceType = {

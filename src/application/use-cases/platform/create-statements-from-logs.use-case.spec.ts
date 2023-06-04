@@ -50,8 +50,6 @@ describe("CreateStatementsFromLogsUseCase", () => {
       config: "MOODLE_CONFIG",
     });
 
-    console.log(result);
-
     expect(true).toBe(true);
   });
 });

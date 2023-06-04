@@ -7,7 +7,7 @@ type CreateStatementsFromLogsUseCaseInput = {
   config: "MOODLE_CONFIG";
 };
 
-type CreateStatementsFromLogsUseCaseOutput = ReturnType<Statement["toJson"]>[];
+type CreateStatementsFromLogsUseCaseOutput = Statement[];
 
 export class CreateStatementsFromLogsUseCase {
   constructor(private readonly statementRepository: StatementRepository) {}
@@ -27,8 +27,6 @@ export class CreateStatementsFromLogsUseCase {
       }
     }
 
-    return (await this.statementRepository.findAll()).map((statement) =>
-      statement.toJson()
-    );
+    return await this.statementRepository.findAll();
   }
 }

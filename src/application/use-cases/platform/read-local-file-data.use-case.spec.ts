@@ -9,8 +9,6 @@ describe("ReadLocalFileDataUseCase", () => {
 
     const result = await sut.execute({ fileName: "logs_2019_2020_min.xlsx" });
 
-    console.log(result[0]);
-
     expect(result[0]).toMatchObject({
       timestamp: "8/03/22 às 10:51",
       username: "T4",

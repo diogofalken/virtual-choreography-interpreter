@@ -40,7 +40,7 @@ export class Recipe extends BaseEntity {
     for (const statement of statements) {
       this.addActor(statement.actor);
       this.addVerb(statement.verb);
-      this.addVerb(statement.verb);
+      this.addPlace(statement.place);
       this.addObject(statement.object);
       this.addContext(statement.context);
     }

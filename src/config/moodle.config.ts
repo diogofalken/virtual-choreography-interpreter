@@ -29,18 +29,12 @@ export const MOODLE_CONFIG: BaseRuleConfig[] = [
       },
       verb: {
         id: "http://adlnet.gov/expapi/verbs/viewed",
-        display: {
-          "en-us": "viewed",
-          pt: "visualizou",
-        },
+        display: "visualizou",
       },
       object: {
         id: "{{ randomUUID }}",
         definition: {
-          name: {
-            "en-us": "{{ context }}",
-            pt: "{{ context }}",
-          },
+          name: "{{ context }}",
         },
       },
       place: {
