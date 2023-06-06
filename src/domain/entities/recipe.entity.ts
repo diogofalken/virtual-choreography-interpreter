@@ -72,6 +72,22 @@ export class Recipe extends BaseEntity {
     }
   }
 
+  get actors() {
+    return this.#actors;
+  }
+  get verbs() {
+    return this.#verbs;
+  }
+  get objects() {
+    return this.#objects;
+  }
+  get places() {
+    return this.#places;
+  }
+  get contexts() {
+    return this.#contexts;
+  }
+
   public toJson() {
     return {
       [this.#name]: {
