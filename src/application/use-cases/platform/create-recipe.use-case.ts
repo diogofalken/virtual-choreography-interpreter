@@ -4,6 +4,7 @@ import { StatementRepository } from "../../../domain/repositories/statement.repo
 
 export type CreateRecipeUseCaseInput = {
   name: string;
+  sourceId: string;
 };
 export type CreateRecipeUseCaseOutput = Recipe;
 
@@ -16,7 +17,9 @@ export class CreateRecipeUseCase {
   public async execute(
     input: CreateRecipeUseCaseInput
   ): Promise<CreateRecipeUseCaseOutput> {
-    const statements = await this.statementRepository.findAll();
+    const statements = await this.statementRepository.findAll({
+      sourceId: input.sourceId,
+    });
 
     const recipe = new Recipe({
       name: input.name,

@@ -4,17 +4,22 @@ import { MOODLE_CONFIG } from "../../config/moodle.config";
 import { Statement } from "../../domain/entities/statement.entity";
 
 export class ConfigMatcherHelper {
-  convertLog(config: MatchConfigTypes, log: Record<string, string>) {
+  convertLog(
+    config: MatchConfigTypes,
+    log: Record<string, string>,
+    sourceId: string
+  ) {
     switch (config) {
       case "MOODLE_CONFIG":
-        return this.matchMoodleConfig(log);
+        return this.matchMoodleConfig(log, sourceId);
       default:
         return;
     }
   }
 
   private matchMoodleConfig(
-    log: Record<string, string>
+    log: Record<string, string>,
+    sourceId: string
   ): Statement | undefined {
     const config = MOODLE_CONFIG;
 
@@ -43,7 +48,7 @@ export class ConfigMatcherHelper {
           );
         });
 
-        return new Statement(JSON.parse(generateStringified));
+        return new Statement({ ...JSON.parse(generateStringified), sourceId });
       }
     }
   }

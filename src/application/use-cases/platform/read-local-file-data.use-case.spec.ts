@@ -1,15 +1,19 @@
 import { describe, expect, it } from "vitest";
 
+import { SourceInMemoryRepository } from "../../../infra/db/source-in-memory.repository";
 import { ExcelFileRetrievalStrategy } from "../../strategies/file-data-retrieval/excel-file-retrieval-strategy";
 import { ReadLocalFileDataUseCase } from "./read-local-file-data.use-case";
 
 describe("ReadLocalFileDataUseCase", () => {
   it("should read local file data", async () => {
-    const sut = new ReadLocalFileDataUseCase(new ExcelFileRetrievalStrategy());
+    const sut = new ReadLocalFileDataUseCase(
+      new SourceInMemoryRepository(),
+      new ExcelFileRetrievalStrategy()
+    );
 
     const result = await sut.execute({ fileName: "logs_2019_2020_min.xlsx" });
 
-    expect(result[0]).toMatchObject({
+    expect(result.logs[0]).toMatchObject({
       timestamp: "8/03/22 às 10:51",
       username: "T4",
       affectedUser: "O1",

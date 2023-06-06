@@ -10,6 +10,7 @@ export class StatementInMemoryRepository implements StatementRepository {
 
     this.#statements.push(
       new Statement({
+        sourceId: statement.sourceId,
         actor: elementsThatAlreadyExist.actor ?? statement.actor,
         place: elementsThatAlreadyExist.place ?? statement.place,
         object: elementsThatAlreadyExist.object ?? statement.object,
@@ -23,7 +24,20 @@ export class StatementInMemoryRepository implements StatementRepository {
     return this.#statements.find((statement) => statement.id === id) ?? null;
   }
 
-  public async findAll(): Promise<Statement[]> {
+  public async findBySourceId(sourceId: string): Promise<Statement | null> {
+    return (
+      this.#statements.find((statement) => statement.sourceId === sourceId) ??
+      null
+    );
+  }
+
+  public async findAll(params: { sourceId?: string }): Promise<Statement[]> {
+    if (params?.sourceId) {
+      return this.#statements.filter(
+        (statement) => statement.sourceId === params.sourceId
+      );
+    }
+
     return this.#statements;
   }
 

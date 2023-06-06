@@ -3,6 +3,7 @@ import type { StatementRepository } from "../../../domain/repositories/statement
 import { ConfigMatcherHelper } from "../../helpers/config-matcher.helper";
 
 type CreateStatementsFromLogsUseCaseInput = {
+  sourceId: string;
   logs: Record<string, string>[];
   config: "MOODLE_CONFIG";
 };
@@ -20,7 +21,11 @@ export class CreateStatementsFromLogsUseCase {
     const configMatcherHelper = new ConfigMatcherHelper();
 
     for (const log of logs) {
-      const statement = configMatcherHelper.convertLog(config, log);
+      const statement = configMatcherHelper.convertLog(
+        config,
+        log,
+        input.sourceId
+      );
 
       if (statement) {
         await this.statementRepository.create(statement);

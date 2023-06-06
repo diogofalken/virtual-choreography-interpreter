@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { RecipeInMemoryRepository } from "../../../infra/db/recipe-in-memory.repository";
+import { SourceInMemoryRepository } from "../../../infra/db/source-in-memory.repository";
 import { StatementInMemoryRepository } from "../../../infra/db/statement-in-memory.repository";
 import { ExcelFileRetrievalStrategy } from "../../strategies/file-data-retrieval/excel-file-retrieval-strategy";
 import { CreateRecipeUseCase } from "./create-recipe.use-case";
@@ -8,11 +9,13 @@ import { ReadLocalFileDataUseCase } from "./read-local-file-data.use-case";
 
 describe("CreateRecipeUseCase", () => {
   it("should create a recipe", async () => {
+    const sourceRepository = new SourceInMemoryRepository();
     const statementRepository = new StatementInMemoryRepository();
     const recipeRepository = new RecipeInMemoryRepository();
 
     // Read Local File Use Case
     const readLocalFileUseCase = new ReadLocalFileDataUseCase(
+      sourceRepository,
       new ExcelFileRetrievalStrategy()
     );
     const readLocalFileData = await readLocalFileUseCase.execute({
@@ -25,7 +28,8 @@ describe("CreateRecipeUseCase", () => {
     );
     await createStatementsFromLogs.execute({
       config: "MOODLE_CONFIG",
-      logs: readLocalFileData,
+      logs: readLocalFileData.logs,
+      sourceId: readLocalFileData.sourceId,
     });
 
     // Create Recipe Use Case
@@ -33,7 +37,10 @@ describe("CreateRecipeUseCase", () => {
       recipeRepository,
       statementRepository
     );
-    const recipe = await createRecipeUseCase.execute({ name: "Batata" });
+    const recipe = await createRecipeUseCase.execute({
+      name: "Batata",
+      sourceId: readLocalFileData.sourceId,
+    });
 
     // console.log(recipe.toJson());
 

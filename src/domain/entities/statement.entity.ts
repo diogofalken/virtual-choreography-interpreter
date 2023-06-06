@@ -9,6 +9,7 @@ import { BaseEntity } from "./base.entity";
 
 export type StatementProps = {
   id?: string;
+  sourceId: string;
   actor: ActorType;
   verb: VerbType;
   object: ObjectType;
@@ -20,6 +21,7 @@ export type StatementProps = {
  * Criar mecanismo para retornar que X id corresponde a X actor ou statement
  */
 export class Statement extends BaseEntity {
+  readonly #sourceId: string;
   #actor: ActorType;
   #verb: VerbType;
   #object: ObjectType;
@@ -28,6 +30,7 @@ export class Statement extends BaseEntity {
 
   constructor(props: StatementProps) {
     super({ id: props.id });
+    this.#sourceId = props.sourceId;
     this.#actor = props.actor;
     this.#verb = props.verb;
     this.#object = props.object;
@@ -35,6 +38,9 @@ export class Statement extends BaseEntity {
     this.#context = props.context;
   }
 
+  get sourceId() {
+    return this.#sourceId;
+  }
   get actor() {
     return this.#actor;
   }

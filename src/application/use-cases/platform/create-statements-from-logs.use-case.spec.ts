@@ -1,14 +1,17 @@
 import { describe, expect, it } from "vitest";
 
+import { randomUUID } from "node:crypto";
 import { StatementInMemoryRepository } from "../../../infra/db/statement-in-memory.repository";
 import { CreateStatementsFromLogsUseCase } from "./create-statements-from-logs.use-case";
 
 describe("CreateStatementsFromLogsUseCase", () => {
   it("should convert logs", async () => {
-    const repository = new StatementInMemoryRepository();
-    const sut = new CreateStatementsFromLogsUseCase(repository);
+    const sut = new CreateStatementsFromLogsUseCase(
+      new StatementInMemoryRepository()
+    );
 
     const result = await sut.execute({
+      sourceId: randomUUID(),
       logs: [
         {
           timestamp: "2/03/22 às 12:04",
