@@ -1,5 +1,5 @@
-import { Choreography } from "../../domain/entities/choreography.entity";
-import { ChoreographyRepository } from "../../domain/repositories/choreography.repository";
+import { Choreography } from "../../../domain/entities/choreography.entity";
+import { ChoreographyRepository } from "../../../domain/repositories/choreography.repository";
 
 export class ChoreographyInMemoryRepository implements ChoreographyRepository {
   readonly #choreographies: Choreography[] = [];

@@ -1,5 +1,5 @@
-import { Source } from "../../domain/entities/source.entity";
-import { SourceRepository } from "../../domain/repositories/source.repository";
+import { Source } from "../../../domain/entities/source.entity";
+import { SourceRepository } from "../../../domain/repositories/source.repository";
 
 export class SourceInMemoryRepository implements SourceRepository {
   readonly #sources: Source[] = [];

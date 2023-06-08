@@ -1,5 +1,5 @@
-import { Statement } from "../../domain/entities/statement.entity";
-import { StatementRepository } from "../../domain/repositories/statement.repository";
+import { Statement } from "../../../domain/entities/statement.entity";
+import { StatementRepository } from "../../../domain/repositories/statement.repository";
 
 export class StatementInMemoryRepository implements StatementRepository {
   readonly #statements: Statement[] = [];
@@ -31,7 +31,7 @@ export class StatementInMemoryRepository implements StatementRepository {
     );
   }
 
-  public async findAll(params: { sourceId?: string }): Promise<Statement[]> {
+  public async findAll(params?: { sourceId?: string }): Promise<Statement[]> {
     if (params?.sourceId) {
       return this.#statements.filter(
         (statement) => statement.sourceId === params.sourceId

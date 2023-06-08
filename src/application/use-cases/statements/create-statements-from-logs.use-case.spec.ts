@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { randomUUID } from "node:crypto";
-import { StatementInMemoryRepository } from "../../../infra/db/statement-in-memory.repository";
+import { StatementInMemoryRepository } from "../../../infra/db/in-memory/statement-in-memory.repository";
 import { CreateStatementsFromLogsUseCase } from "./create-statements-from-logs.use-case";
 
 describe("CreateStatementsFromLogsUseCase", () => {

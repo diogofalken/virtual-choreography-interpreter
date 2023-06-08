@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { describe, expect, it, vi } from "vitest";
 import { Recipe } from "../../../domain/entities/recipe.entity";
-import { RecipeInMemoryRepository } from "../../../infra/db/recipe-in-memory.repository";
+import { RecipeInMemoryRepository } from "../../../infra/db/in-memory/recipe-in-memory.repository";
 import { GetRecipeUseCase } from "./get-recipe.use-case";
 
 describe("Get Recipe Use Case", () => {

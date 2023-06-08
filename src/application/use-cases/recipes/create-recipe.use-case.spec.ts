@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { RecipeInMemoryRepository } from "../../../infra/db/recipe-in-memory.repository";
-import { SourceInMemoryRepository } from "../../../infra/db/source-in-memory.repository";
-import { StatementInMemoryRepository } from "../../../infra/db/statement-in-memory.repository";
+import { RecipeInMemoryRepository } from "../../../infra/db/in-memory/recipe-in-memory.repository";
+import { SourceInMemoryRepository } from "../../../infra/db/in-memory/source-in-memory.repository";
+import { StatementInMemoryRepository } from "../../../infra/db/in-memory/statement-in-memory.repository";
 import { ExcelFileRetrievalStrategy } from "../../strategies/file-data-retrieval/excel-file-retrieval-strategy";
+import { ReadLocalFileDataUseCase } from "../files/read-local-file-data.use-case";
+import { CreateStatementsFromLogsUseCase } from "../statements/create-statements-from-logs.use-case";
 import { CreateRecipeUseCase } from "./create-recipe.use-case";
-import { CreateStatementsFromLogsUseCase } from "./create-statements-from-logs.use-case";
-import { ReadLocalFileDataUseCase } from "./read-local-file-data.use-case";
 
 describe("CreateRecipeUseCase", () => {
   it("should create a recipe", async () => {

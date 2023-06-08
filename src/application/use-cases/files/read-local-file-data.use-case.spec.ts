@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { SourceInMemoryRepository } from "../../../infra/db/source-in-memory.repository";
+import { SourceInMemoryRepository } from "../../../infra/db/in-memory/source-in-memory.repository";
 import { ExcelFileRetrievalStrategy } from "../../strategies/file-data-retrieval/excel-file-retrieval-strategy";
 import { ReadLocalFileDataUseCase } from "./read-local-file-data.use-case";
 
