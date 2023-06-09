@@ -6,6 +6,7 @@ import { FileDataRetrievalStrategy } from "../../strategies/file-data-retrieval/
 
 type ReadLocalFileDataUseCaseInput = {
   fileName: string;
+  path?: string;
 };
 
 type ReadLocalFileDataUseCaseOutput = {
@@ -22,10 +23,9 @@ export class ReadLocalFileDataUseCase {
   async execute(
     input: ReadLocalFileDataUseCaseInput
   ): Promise<ReadLocalFileDataUseCaseOutput> {
-    const filePath = path.resolve(
-      __dirname,
-      `../../../infra/data/${input.fileName}`
-    );
+    const filePath =
+      input.path ??
+      path.resolve(__dirname, `../../../infra/data/${input.fileName}`);
 
     const result = await this.fileDataRetrievalStrategy.retrieveData(filePath);
 
