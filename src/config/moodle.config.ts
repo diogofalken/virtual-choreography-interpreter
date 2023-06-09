@@ -17,7 +17,7 @@ export type MoodleLog = Record<keyof FileColumns, string>;
 export const MOODLE_CONFIG: BaseRuleConfig[] = [
   {
     pattern: {
-      event: {
+      eventName: {
         "en-us": "Viewed course module",
         pt: "Módulo de disciplina visualizado",
       },

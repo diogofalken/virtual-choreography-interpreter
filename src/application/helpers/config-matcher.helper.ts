@@ -25,8 +25,9 @@ export class ConfigMatcherHelper {
 
     for (const rule of config) {
       const { pattern, generate } = rule;
+      const key = Object.keys(pattern)[0]; // TODO: change this to check all the keys instead of just PT
 
-      if (pattern.event.pt === log.eventName) {
+      if (pattern[key].pt === log[key]) {
         const regex = new RegExp(/{{\s*(\w+)\s*}}/gi);
 
         let generateStringified = JSON.stringify(generate);

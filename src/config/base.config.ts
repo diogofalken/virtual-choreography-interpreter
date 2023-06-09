@@ -10,7 +10,7 @@ import { MoodleLog } from "./moodle.config";
 
 export type BaseRuleConfig = {
   pattern: {
-    event: Record<LanguageKeys, string>;
+    [key: string]: Record<LanguageKeys, string>;
   };
   generate: {
     actor: ActorType;
