@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { MatchConfigTypes } from "../../config/base.config";
+import { BaseRuleConfig, MatchConfigTypes } from "../../config/base.config";
 import { MOODLE_CONFIG } from "../../config/moodle.config";
 import { Statement } from "../../domain/entities/statement.entity";
 
@@ -11,18 +11,17 @@ export class ConfigMatcherHelper {
   ) {
     switch (config) {
       case "MOODLE_CONFIG":
-        return this.matchMoodleConfig(log, sourceId);
+        return this.matchConfig(MOODLE_CONFIG, log, sourceId);
       default:
         return;
     }
   }
 
-  private matchMoodleConfig(
+  private matchConfig(
+    config: BaseRuleConfig[],
     log: Record<string, string>,
     sourceId: string
   ): Statement | undefined {
-    const config = MOODLE_CONFIG;
-
     for (const rule of config) {
       const { pattern, generate } = rule;
       const key = Object.keys(pattern)[0]; // TODO: change this to check all the keys instead of just PT
