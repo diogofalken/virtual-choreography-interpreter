@@ -23,6 +23,7 @@ export class CreateRecipeUseCase {
 
     const recipe = new Recipe({
       name: input.name,
+      sourceId: input.sourceId,
       statements,
     });
 

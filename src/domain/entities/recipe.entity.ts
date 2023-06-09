@@ -11,11 +11,13 @@ import { Statement } from "./statement.entity";
 export type RecipeProps = {
   id?: string;
   name: string;
+  sourceId: string;
   statements: Statement[];
 };
 
 export class Recipe extends BaseEntity {
   readonly #name: string;
+  readonly #sourceId: string;
   #actors: ActorType[];
   #verbs: VerbType[];
   #objects: ObjectType[];
@@ -25,6 +27,7 @@ export class Recipe extends BaseEntity {
   constructor(props: RecipeProps) {
     super({ id: props.id });
     this.#name = props.name;
+    this.#sourceId = props.sourceId;
     this.#actors = [];
     this.#verbs = [];
     this.#objects = [];
@@ -72,6 +75,9 @@ export class Recipe extends BaseEntity {
     }
   }
 
+  get sourceId() {
+    return this.#sourceId;
+  }
   get actors() {
     return this.#actors;
   }

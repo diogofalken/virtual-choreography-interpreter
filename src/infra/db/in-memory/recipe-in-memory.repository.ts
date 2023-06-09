@@ -11,4 +11,8 @@ export class RecipeInMemoryRepository implements RecipeRepository {
   public async findById(id: string): Promise<Recipe | null> {
     return this.#recipes.find((recipe) => recipe.id === id) ?? null;
   }
+
+  public async findBySourceId(sourceId: string): Promise<Recipe | null> {
+    return this.#recipes.find((recipe) => recipe.sourceId === sourceId) ?? null;
+  }
 }
