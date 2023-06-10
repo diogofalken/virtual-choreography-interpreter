@@ -1,29 +1,27 @@
-import { Request, Response } from "express";
 import { ExportSourceUseCase } from "../../../application/use-cases/sources/export-source.use-case";
+import { JSONValue } from "../../../domain/types/general.types";
 
 export class GetSourceController {
   constructor(private readonly exportSourceUseCase: ExportSourceUseCase) {}
 
-  async handle(request: Request, response: Response): Promise<Response> {
-    const { id } = request.params;
-    const { recipe, statements, exportFile } = request.query;
-
+  async handle(
+    id: string,
+    query?: { recipe?: boolean; statements?: boolean; exportFile?: boolean }
+  ): Promise<Partial<Record<"recipe" | "statements" | "source", JSONValue>>> {
     const type: ("RECIPE" | "STATEMENTS")[] = [];
-    if (recipe) {
+    if (query?.recipe) {
       type.push("RECIPE");
     }
-    if (statements) {
+    if (query?.statements) {
       type.push("STATEMENTS");
     }
 
     const data = await this.exportSourceUseCase.execute({
       sourceId: id,
       type,
-      exportFile: exportFile === "true",
+      exportFile: query?.exportFile,
     });
 
-    return response.status(200).json({
-      data,
-    });
+    return data;
   }
 }

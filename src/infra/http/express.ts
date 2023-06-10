@@ -14,6 +14,7 @@ import { CreateStatementsFromLogsUseCase } from "../../application/use-cases/sta
 import { RecipeInMemoryRepository } from "../db/in-memory/recipe-in-memory.repository";
 import { SourceInMemoryRepository } from "../db/in-memory/source-in-memory.repository";
 import { StatementInMemoryRepository } from "../db/in-memory/statement-in-memory.repository";
+import { GetSourceSchema } from "./validators/get-source.schema";
 
 const app = express();
 
@@ -96,7 +97,11 @@ const getSourceController = new GetSourceController(
 );
 app.get("/sources/:id", async (req: Request, res: Response) => {
   try {
-    return await getSourceController.handle(req, res);
+    const data = GetSourceSchema.parse(req);
+
+    const result = await getSourceController.handle(data.params.id, data.query);
+
+    return res.status(200).json(result);
   } catch (err: any) {
     res.status(err.status ?? 500).json(err);
   }
