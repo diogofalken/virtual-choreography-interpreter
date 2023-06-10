@@ -29,7 +29,7 @@ export class CreateSourceController {
     });
 
     await this.createRecipeUseCase.execute({
-      name: `${parse(request.file.originalname).name} recipe)}`,
+      name: `${parse(request.file.originalname).name} recipe`,
       sourceId: fileData.sourceId,
     });
 

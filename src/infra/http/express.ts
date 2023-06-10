@@ -4,9 +4,12 @@ import helmet from "helmet";
 import multer, { FileFilterCallback } from "multer";
 import path, { extname } from "path";
 import { CreateSourceController } from "../../adapters/controllers/sources/create-source.controller";
+import { GetSourceController } from "../../adapters/controllers/sources/get-source.controller";
 import { ExcelFileRetrievalStrategy } from "../../application/strategies/file-data-retrieval/excel-file-retrieval-strategy";
 import { ReadLocalFileDataUseCase } from "../../application/use-cases/files/read-local-file-data.use-case";
+import { WriteLocalFileUsecase } from "../../application/use-cases/files/write-local-file.use-case";
 import { CreateRecipeUseCase } from "../../application/use-cases/recipes/create-recipe.use-case";
+import { ExportSourceUseCase } from "../../application/use-cases/sources/export-source.use-case";
 import { CreateStatementsFromLogsUseCase } from "../../application/use-cases/statements/create-statements-from-logs.use-case";
 import { RecipeInMemoryRepository } from "../db/in-memory/recipe-in-memory.repository";
 import { SourceInMemoryRepository } from "../db/in-memory/source-in-memory.repository";
@@ -61,8 +64,8 @@ const upload = multer({
 const sourceRepository = new SourceInMemoryRepository();
 const statementRepository = new StatementInMemoryRepository();
 const recipeRepository = new RecipeInMemoryRepository();
-// Routes
 
+// Routes
 const createSourceController = new CreateSourceController(
   new ReadLocalFileDataUseCase(
     sourceRepository,
@@ -82,6 +85,22 @@ app.post(
     }
   }
 );
+
+const getSourceController = new GetSourceController(
+  new ExportSourceUseCase(
+    sourceRepository,
+    recipeRepository,
+    statementRepository,
+    new WriteLocalFileUsecase()
+  )
+);
+app.get("/sources/:id", async (req: Request, res: Response) => {
+  try {
+    return await getSourceController.handle(req, res);
+  } catch (err: any) {
+    res.status(err.status ?? 500).json(err);
+  }
+});
 
 const PORT = parseInt(process.env.PORT ?? "5001");
 app.listen(PORT, () => {

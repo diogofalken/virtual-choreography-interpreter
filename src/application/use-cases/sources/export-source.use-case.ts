@@ -7,6 +7,7 @@ import { WriteLocalFileUsecase } from "../files/write-local-file.use-case";
 type ExportUseCaseInput = {
   sourceId: string;
   type: ("RECIPE" | "STATEMENTS")[];
+  exportFile?: boolean;
 };
 
 export class ExportSourceUseCase {
@@ -43,9 +44,13 @@ export class ExportSourceUseCase {
       }
     }
 
-    await this.writeLocalFileUseCase.execute({
-      fileName: source.name,
-      data: data,
-    });
+    if (input.exportFile) {
+      await this.writeLocalFileUseCase.execute({
+        fileName: source.name,
+        data: data,
+      });
+    }
+
+    return data;
   }
 }
