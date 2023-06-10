@@ -6,7 +6,9 @@ import path, { extname } from "path";
 import { CreateSourceController } from "../../adapters/controllers/sources/create-source.controller";
 import { ExcelFileRetrievalStrategy } from "../../application/strategies/file-data-retrieval/excel-file-retrieval-strategy";
 import { ReadLocalFileDataUseCase } from "../../application/use-cases/files/read-local-file-data.use-case";
+import { CreateRecipeUseCase } from "../../application/use-cases/recipes/create-recipe.use-case";
 import { CreateStatementsFromLogsUseCase } from "../../application/use-cases/statements/create-statements-from-logs.use-case";
+import { RecipeInMemoryRepository } from "../db/in-memory/recipe-in-memory.repository";
 import { SourceInMemoryRepository } from "../db/in-memory/source-in-memory.repository";
 import { StatementInMemoryRepository } from "../db/in-memory/statement-in-memory.repository";
 
@@ -58,7 +60,7 @@ const upload = multer({
 // Repositories
 const sourceRepository = new SourceInMemoryRepository();
 const statementRepository = new StatementInMemoryRepository();
-
+const recipeRepository = new RecipeInMemoryRepository();
 // Routes
 
 const createSourceController = new CreateSourceController(
@@ -66,7 +68,8 @@ const createSourceController = new CreateSourceController(
     sourceRepository,
     new ExcelFileRetrievalStrategy()
   ),
-  new CreateStatementsFromLogsUseCase(statementRepository)
+  new CreateStatementsFromLogsUseCase(statementRepository),
+  new CreateRecipeUseCase(recipeRepository, statementRepository)
 );
 app.post(
   "/sources",
