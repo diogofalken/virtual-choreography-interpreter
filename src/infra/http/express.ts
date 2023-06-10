@@ -1,5 +1,7 @@
+import cors from "cors";
 import express, { Request, Response } from "express";
-import multer from "multer";
+import helmet from "helmet";
+import multer, { FileFilterCallback } from "multer";
 import path, { extname } from "path";
 import { CreateSourceController } from "../../adapters/controllers/sources/create-source.controller";
 import { ExcelFileRetrievalStrategy } from "../../application/strategies/file-data-retrieval/excel-file-retrieval-strategy";
@@ -10,6 +12,8 @@ import { StatementInMemoryRepository } from "../db/in-memory/statement-in-memory
 
 const app = express();
 
+app.use(cors());
+app.use(helmet());
 app.use(express.json());
 
 // Multer config
@@ -26,7 +30,30 @@ const storage = multer.diskStorage({
     cb(null, filename);
   },
 });
-const upload = multer({ storage });
+const fileFilter = (
+  _req: Express.Request,
+  file: Express.Multer.File,
+  cb: FileFilterCallback
+) => {
+  const allowedExtensions = [".xlsx"];
+
+  const fileExtension = extname(file.originalname).toLowerCase();
+  if (!allowedExtensions.includes(fileExtension)) {
+    return cb(
+      new Error(`Invalid file type (allowed extensions: ${allowedExtensions}).`)
+    );
+  }
+
+  cb(null, true);
+};
+
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: {
+    fileSize: 1024 * 1024 * 10, // 10MB
+  },
+});
 
 // Repositories
 const sourceRepository = new SourceInMemoryRepository();
