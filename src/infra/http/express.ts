@@ -82,7 +82,7 @@ app.post(
     try {
       return await createSourceController.handle(req, res);
     } catch (err: any) {
-      res.status(err.status ?? 500).json(err);
+      res.status(err.status ?? 500).json({ err: err.toString() });
     }
   }
 );
@@ -103,7 +103,8 @@ app.get("/sources/:id", async (req: Request, res: Response) => {
 
     return res.status(200).json(result);
   } catch (err: any) {
-    res.status(err.status ?? 500).json(err);
+    console.log(err.toString());
+    return res.status(err.status ?? 500).json({ err: err.toString() });
   }
 });
 

@@ -1,18 +1,18 @@
 import { BaseRuleConfig } from "./base.config";
 
-type FileColumns = {
-  timestamp: string;
-  username: string;
-  affectedUser: string;
-  context: string;
-  component: string;
-  eventName: string;
-  description: string;
-  origin: string;
-  ip: string;
-};
+export const MoodleFileColumns = [
+  "timestamp",
+  "username",
+  "affectedUser",
+  "context",
+  "component",
+  "eventName",
+  "description",
+  "origin",
+  "ip",
+] as const;
 
-export type MoodleLog = Record<keyof FileColumns, string>;
+export type MoodleLog = Record<(typeof MoodleFileColumns)[number], string>;
 
 export const MOODLE_CONFIG: BaseRuleConfig[] = [
   {

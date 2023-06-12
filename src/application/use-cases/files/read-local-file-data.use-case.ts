@@ -1,5 +1,6 @@
 import path from "path";
 
+import { MoodleFileColumns } from "../../../config/moodle.config";
 import { Source } from "../../../domain/entities/source.entity";
 import { SourceRepository } from "../../../domain/repositories/source.repository";
 import { FileDataRetrievalStrategy } from "../../strategies/file-data-retrieval/file-data-retrieval-strategy.interface";
@@ -29,6 +30,11 @@ export class ReadLocalFileDataUseCase {
 
     const result = await this.fileDataRetrievalStrategy.retrieveData(filePath);
 
+    // TODO: In future pass the config
+    if (!this.isValidColumns(result.columns)) {
+      throw new Error("Invalid file columns");
+    }
+
     const logs = this.fileDataRetrievalStrategy.toObjectArray(
       result.columns,
       result.rows
@@ -41,5 +47,21 @@ export class ReadLocalFileDataUseCase {
       sourceId: source.id,
       logs,
     };
+  }
+
+  private isValidColumns(columns: string[], config = "MOODLE_CONFIG"): boolean {
+    let validColumns: Readonly<string[]> = [];
+    switch (config) {
+      case "MOODLE_CONFIG":
+        validColumns = MoodleFileColumns;
+        break;
+      default:
+        break;
+    }
+
+    if (JSON.stringify(columns) === JSON.stringify(validColumns)) {
+      return true;
+    }
+    return false;
   }
 }
