@@ -4,10 +4,7 @@
  * definition: { name: { [key in LanguageKeys]: string } };
  */
 
-export type ActorType = {
-  id: string;
-  name: string;
-};
+export type ActorType = { id: string; name: string };
 
 export type VerbType = {
   id: string;
