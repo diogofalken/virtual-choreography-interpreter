@@ -1,5 +1,5 @@
+import { BaseEntity } from "shared/entities";
 import { SourceType } from "../types/source.types";
-import { BaseEntity } from "./base.entity";
 
 export type SourceProps = {
   id?: string;

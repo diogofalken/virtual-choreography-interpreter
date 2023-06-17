@@ -1,6 +1,6 @@
 import { writeFileSync } from "fs";
 import path from "path";
-import { JSONValue } from "../../../domain/types/general.types";
+import { JSONValue } from "shared/types";
 
 type WriteLocalFileUsecaseInput = {
   fileName: string;

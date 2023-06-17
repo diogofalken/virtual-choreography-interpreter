@@ -1,11 +1,11 @@
-import { LanguageKeys } from "../domain/types/languages.types";
 import {
   ActorType,
   ContextType,
+  LanguageKeys,
   ObjectType,
   PlaceType,
   VerbType,
-} from "../domain/types/xapi-elements.types";
+} from "shared/types";
 import { MoodleLog } from "./moodle.config";
 
 export type BaseRuleConfig = {

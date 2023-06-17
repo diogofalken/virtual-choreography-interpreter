@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
+import { Statement } from "shared/entities";
 import { BaseRuleConfig, MatchConfigTypes } from "../../config/base.config";
 import { MOODLE_CONFIG } from "../../config/moodle.config";
-import { Statement } from "../../domain/entities/statement.entity";
 
 export class ConfigMatcherHelper {
   convertLog(

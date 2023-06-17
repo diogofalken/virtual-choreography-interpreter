@@ -1,6 +1,5 @@
-import { Recipe } from "../../../domain/entities/recipe.entity";
-import { RecipeRepository } from "../../../domain/repositories/recipe.repository";
-import { StatementRepository } from "../../../domain/repositories/statement.repository";
+import { Recipe } from "shared/entities";
+import { RecipeRepository, StatementRepository } from "shared/repositories";
 
 export type CreateRecipeUseCaseInput = {
   name: string;

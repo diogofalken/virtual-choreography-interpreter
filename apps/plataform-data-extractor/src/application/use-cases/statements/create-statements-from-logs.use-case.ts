@@ -1,5 +1,5 @@
-import { Statement } from "../../../domain/entities/statement.entity";
-import type { StatementRepository } from "../../../domain/repositories/statement.repository";
+import { Statement } from "shared/entities";
+import type { StatementRepository } from "shared/repositories";
 import { ConfigMatcherHelper } from "../../helpers/config-matcher.helper";
 
 type CreateStatementsFromLogsUseCaseInput = {

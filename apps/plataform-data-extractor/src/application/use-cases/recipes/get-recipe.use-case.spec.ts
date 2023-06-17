@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
+import { Recipe } from "shared/entities";
 import { describe, expect, it, vi } from "vitest";
-import { Recipe } from "../../../domain/entities/recipe.entity";
 import { RecipeInMemoryRepository } from "../../../infra/db/in-memory/recipe-in-memory.repository";
 import { GetRecipeUseCase } from "./get-recipe.use-case";
 
@@ -10,6 +10,7 @@ describe("Get Recipe Use Case", () => {
 
     const expected = new Recipe({
       id: randomUUID(),
+      sourceId: randomUUID(),
       name: "Recipe 1",
       statements: [],
     });

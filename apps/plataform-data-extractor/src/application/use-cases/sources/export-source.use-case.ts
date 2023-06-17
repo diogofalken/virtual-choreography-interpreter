@@ -1,7 +1,7 @@
-import { RecipeRepository } from "../../../domain/repositories/recipe.repository";
+import { parse } from "path";
+import { RecipeRepository, StatementRepository } from "shared/repositories";
+import { JSONValue } from "shared/types";
 import { SourceRepository } from "../../../domain/repositories/source.repository";
-import { StatementRepository } from "../../../domain/repositories/statement.repository";
-import { JSONValue } from "../../../domain/types/general.types";
 import { WriteLocalFileUsecase } from "../files/write-local-file.use-case";
 
 type ExportUseCaseInput = {
@@ -46,7 +46,7 @@ export class ExportSourceUseCase {
 
     if (input.exportFile) {
       await this.writeLocalFileUseCase.execute({
-        fileName: source.name,
+        fileName: parse(source.name).name,
         data: data,
       });
     }

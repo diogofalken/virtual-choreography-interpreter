@@ -1,5 +1,5 @@
-import { Statement } from "../../../domain/entities/statement.entity";
-import { StatementRepository } from "../../../domain/repositories/statement.repository";
+import { Statement } from "shared/entities";
+import { StatementRepository } from "shared/repositories";
 
 type GetStatementsUseCaseInput = {
   filters?: {

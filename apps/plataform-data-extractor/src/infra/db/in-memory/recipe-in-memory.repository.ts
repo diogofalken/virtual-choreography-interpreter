@@ -1,5 +1,5 @@
-import { Recipe } from "../../../domain/entities/recipe.entity";
-import { RecipeRepository } from "../../../domain/repositories/recipe.repository";
+import { Recipe } from "shared/entities";
+import { RecipeRepository } from "shared/repositories";
 
 export class RecipeInMemoryRepository implements RecipeRepository {
   readonly #recipes: Recipe[] = [];

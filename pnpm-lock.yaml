@@ -53,6 +53,9 @@ importers:
       node-xlsx:
         specifier: ^0.23.0
         version: 0.23.0
+      shared:
+        specifier: workspace:shared*
+        version: link:../../libs/shared
       zod:
         specifier: ^3.21.4
         version: 3.21.4
@@ -66,6 +69,8 @@ importers:
       '@types/multer':
         specifier: ^1.4.7
         version: 1.4.7
+
+  libs/shared: {}
 
 packages:
 
