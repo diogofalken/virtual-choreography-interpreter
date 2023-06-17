@@ -1,5 +1,5 @@
+import { JSONValue } from "shared/types";
 import { ExportSourceUseCase } from "../../../application/use-cases/sources/export-source.use-case";
-import { JSONValue } from "../../../domain/types/general.types";
 
 export class GetSourceController {
   constructor(private readonly exportSourceUseCase: ExportSourceUseCase) {}
