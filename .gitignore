@@ -2,7 +2,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,macos,windows,linux
 
 ### Project specifics ###
-tmp/*.json
+apps/**/tmp/*.json
+
 
 ### Linux ###
 *~
