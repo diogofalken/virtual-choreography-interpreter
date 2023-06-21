@@ -34,12 +34,12 @@ export const MOODLE_CONFIG: BaseRuleConfig[] = [
       object: {
         id: "{{ randomUUID }}",
         definition: {
-          name: "{{ context }}",
+          name: "módulo de disciplina",
         },
       },
       place: {
         id: "{{ randomUUID }}",
-        name: "{{ component }}",
+        name: "{{ context }}",
       },
       context: {
         id: "{{ randomUUID }}",
@@ -47,6 +47,7 @@ export const MOODLE_CONFIG: BaseRuleConfig[] = [
           timestamp: "{{ timestamp }}",
           description: "{{ description }}",
           event: "{{ eventName }}",
+          component: "{{ component }}",
         },
       },
     },
@@ -70,12 +71,12 @@ export const MOODLE_CONFIG: BaseRuleConfig[] = [
       object: {
         id: "{{ randomUUID }}",
         definition: {
-          name: "{{ context }}",
+          name: "discussão",
         },
       },
       place: {
         id: "{{ randomUUID }}",
-        name: "{{ component }}",
+        name: "{{ context }}",
       },
       context: {
         id: "{{ randomUUID }}",
@@ -83,6 +84,7 @@ export const MOODLE_CONFIG: BaseRuleConfig[] = [
           timestamp: "{{ timestamp }}",
           description: "{{ description }}",
           event: "{{ eventName }}",
+          component: "{{ component }}",
         },
       },
     },
@@ -106,12 +108,12 @@ export const MOODLE_CONFIG: BaseRuleConfig[] = [
       object: {
         id: "{{ randomUUID }}",
         definition: {
-          name: "{{ context }}",
+          name: "tópico",
         },
       },
       place: {
         id: "{{ randomUUID }}",
-        name: "{{ component }}",
+        name: "{{ context }}",
       },
       context: {
         id: "{{ randomUUID }}",
@@ -119,6 +121,7 @@ export const MOODLE_CONFIG: BaseRuleConfig[] = [
           timestamp: "{{ timestamp }}",
           description: "{{ description }}",
           event: "{{ eventName }}",
+          component: "{{ component }}",
         },
       },
     },
@@ -142,12 +145,12 @@ export const MOODLE_CONFIG: BaseRuleConfig[] = [
       object: {
         id: "{{ randomUUID }}",
         definition: {
-          name: "{{ context }}",
+          name: "conteúdo",
         },
       },
       place: {
         id: "{{ randomUUID }}",
-        name: "{{ component }}",
+        name: "{{ context }}",
       },
       context: {
         id: "{{ randomUUID }}",
@@ -155,6 +158,7 @@ export const MOODLE_CONFIG: BaseRuleConfig[] = [
           timestamp: "{{ timestamp }}",
           description: "{{ description }}",
           event: "{{ eventName }}",
+          component: "{{ component }}",
         },
       },
     },
@@ -178,12 +182,12 @@ export const MOODLE_CONFIG: BaseRuleConfig[] = [
       object: {
         id: "{{ randomUUID }}",
         definition: {
-          name: "{{ context }}",
+          name: "tópico",
         },
       },
       place: {
         id: "{{ randomUUID }}",
-        name: "{{ component }}",
+        name: "{{ context }}",
       },
       context: {
         id: "{{ randomUUID }}",
@@ -191,6 +195,7 @@ export const MOODLE_CONFIG: BaseRuleConfig[] = [
           timestamp: "{{ timestamp }}",
           description: "{{ description }}",
           event: "{{ eventName }}",
+          component: "{{ component }}",
         },
       },
     },

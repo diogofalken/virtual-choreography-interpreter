@@ -14,7 +14,7 @@ export type StatementProps = {
   verb: VerbType;
   object: ObjectType;
   place: PlaceType;
-  context: ContextType;
+  context?: ContextType;
 };
 
 /**
@@ -26,7 +26,7 @@ export class Statement extends BaseEntity {
   #verb: VerbType;
   #object: ObjectType;
   #place: PlaceType;
-  #context: ContextType;
+  #context?: ContextType;
 
   constructor(props: StatementProps) {
     super({ id: props.id });

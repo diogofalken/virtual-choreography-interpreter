@@ -69,8 +69,8 @@ export class Recipe extends BaseEntity {
       this.#places.push(place);
     }
   }
-  public addContext(context: ContextType) {
-    if (!this.elementExistsOnArray(this.#contexts, context.id)) {
+  public addContext(context?: ContextType) {
+    if (context && !this.elementExistsOnArray(this.#contexts, context.id)) {
       this.#contexts.push(context);
     }
   }

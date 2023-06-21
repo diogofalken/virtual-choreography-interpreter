@@ -27,5 +27,6 @@ export type ContextType = {
     timestamp: string;
     description: string;
     event: string;
+    component: string;
   };
 };

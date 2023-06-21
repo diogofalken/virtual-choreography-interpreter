@@ -42,12 +42,12 @@ describe("CreateRecipeUseCase", () => {
       sourceId: readLocalFileData.sourceId,
     });
 
-    // console.log(recipe.toJson());
+    // console.log(recipe.toJson()["Batata"].objects);
 
     expect(recipe.actors).toHaveLength(3);
     expect(recipe.verbs).toHaveLength(1);
-    expect(recipe.objects).toHaveLength(37);
-    expect(recipe.places).toHaveLength(6);
+    expect(recipe.objects).toHaveLength(1);
+    expect(recipe.places).toHaveLength(37);
     expect(recipe.contexts).toHaveLength(66);
   });
 });
