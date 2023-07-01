@@ -1,0 +1,14 @@
+{
+  "name": "learning-choreography-matcher",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Diogo Marques Costa <me@diogomcosta.com>",
+  "main": "index.js",
+  "scripts": {
+    "start": "echo 'To be implemented'"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "shared": "workspace:shared*"
+  }
+}

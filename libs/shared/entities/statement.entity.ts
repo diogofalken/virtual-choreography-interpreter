@@ -87,7 +87,12 @@ export class Statement extends BaseEntity {
       return isoDate.toISO();
     }
 
-    const otherDateFormats = ["M/dd/yy 'às' HH:mm", "dd/MM/yy 'às' HH:mm"];
+    const otherDateFormats = [
+      "M/dd/yy 'às' HH:mm",
+      "dd/MM/yy 'às' HH:mm",
+      "dd/MM/yy, HH:mm",
+      "M/dd/yy, HH:mm",
+    ];
 
     for (const dateFormat of otherDateFormats) {
       const parsedDate = DateTime.fromFormat(timestamp, dateFormat);
