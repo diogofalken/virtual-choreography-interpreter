@@ -81,6 +81,19 @@ export class Statement extends BaseEntity {
     };
   }
 
+  public toNaturalLanguage(withTimestamp = false): string {
+    let timestamp = "";
+    if (withTimestamp) {
+      timestamp += `${new Date(
+        this.context?.extensions.timestamp ?? ""
+      ).toLocaleString("pt-PT")} - `;
+    }
+
+    return `${timestamp}${this.#actor.name} ${this.#verb.display} ${
+      this.#object.definition.name
+    } no ${this.#place.name}`;
+  }
+
   #parseTimestamp(timestamp: string): string | null {
     const isoDate = DateTime.fromISO(timestamp);
     if (isoDate.isValid) {

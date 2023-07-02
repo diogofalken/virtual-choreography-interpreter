@@ -37,4 +37,10 @@ export class StatementMatcherHelper {
 
     return statementsByPlaceMap;
   }
+
+  public getTimeDifferenceInMS(s1: Statement, s2: Statement): number {
+    const s1Time = new Date(s1.context?.extensions.timestamp ?? "").getTime();
+    const s2Time = new Date(s2.context?.extensions.timestamp ?? "").getTime();
+    return s1Time - s2Time;
+  }
 }

@@ -11,32 +11,8 @@ export type EadStatement = {
 export enum EadForumStatementId {
   CREATE_TOPIC_AND_PUBLISH_CONTENT = "CREATE_TOPIC_AND_PUBLISH_CONTENT",
   UPDATE_TOPIC_AND_PUBLISH_CONTENT = "UPDATE_TOPIC_AND_PUBLISH_CONTENT",
+  VIEW_DISCUSSION = "VIEW_DISCUSSION",
 }
-
-const createTopicAndPublishContent = new Statement({
-  id: EadForumStatementId.CREATE_TOPIC_AND_PUBLISH_CONTENT,
-  sourceId: "ead-forum",
-  actor: {
-    id: "{{ randomUUID }}",
-    name: "{{ actor }}",
-  },
-  verb: {
-    id: "http://diogomcosta.com/xapi/verb/create-and-publish",
-    display: "criou e publicou",
-  },
-  object: {
-    id: randomUUID(),
-    definition: {
-      name: "conteúdo",
-    },
-  },
-  place: {
-    id: "{{ randomUUID }}",
-    name: "{{ place }}",
-  },
-});
-
-export const FORUM_STATEMENTS: Statement[] = [createTopicAndPublishContent];
 
 export const GENERATE_FORUM_STATEMENTS: Partial<
   Record<EadForumStatementId, Statement>
@@ -85,6 +61,28 @@ export const GENERATE_FORUM_STATEMENTS: Partial<
       name: "{{ place }}",
     },
   }),
+  [EadForumStatementId.VIEW_DISCUSSION]: new Statement({
+    id: "{{ randomUUID }}",
+    sourceId: "ead-forum",
+    actor: {
+      id: "{{ randomUUID }}",
+      name: "{{ actor }}",
+    },
+    verb: {
+      id: "http://adlnet.gov/expapi/verbs/viewed",
+      display: "visualizou",
+    },
+    object: {
+      id: "{{ randomUUID }}",
+      definition: {
+        name: "discussão",
+      },
+    },
+    place: {
+      id: "{{ randomUUID }}",
+      name: "{{ place }}",
+    },
+  }),
 };
 
 export const MOODLE_STATEMENT_MATCH: Record<
@@ -113,6 +111,12 @@ export const MOODLE_STATEMENT_MATCH: Record<
     {
       verb: "http://diogomcosta.com/xapi/verb/published",
       object: "conteúdo",
+    },
+  ],
+  [EadForumStatementId.VIEW_DISCUSSION]: [
+    {
+      verb: "http://adlnet.gov/expapi/verbs/viewed",
+      object: "discussão",
     },
   ],
 };

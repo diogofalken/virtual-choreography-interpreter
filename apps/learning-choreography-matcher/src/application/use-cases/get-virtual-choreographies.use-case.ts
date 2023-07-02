@@ -11,14 +11,12 @@ import { StatementMatcherHelper } from "../helpers/statement-matcher.helper";
 type GetVirtualChoreographiesUseCaseInput = {
   statements: Statement[];
 };
-type GetVirtualChoreographiesUseCaseOutput = {
-  choreographies: Choreography[];
-};
+type GetVirtualChoreographiesUseCaseOutput = Choreography[];
 
 export class GetVirtualChoreographiesUseCase {
   async execute(
     input: GetVirtualChoreographiesUseCaseInput
-  ): Promise<GetVirtualChoreographiesUseCaseOutput | null> {
+  ): Promise<GetVirtualChoreographiesUseCaseOutput> {
     const statementsByActorMap = new Map<string, Statement[]>();
 
     // Group statements by actor
@@ -49,48 +47,62 @@ export class GetVirtualChoreographiesUseCase {
 
     // Algorithm
     const statementMatcherHelper = new StatementMatcherHelper();
+    const choreographies: Choreography[] = [];
     for (const actorStatements of statementsByActorMap.values()) {
       for (const placeStatements of statementMatcherHelper
         .getStatementsByPlace(actorStatements)
         .values()) {
+        let curStatements = [...placeStatements];
         for (const [eadKey, eadStatements] of Object.entries(
           MOODLE_STATEMENT_MATCH
         )) {
           const matchedSequences = this.findMatchingSequences(
-            placeStatements,
+            curStatements,
             eadStatements
           );
 
           if (matchedSequences.length > 0) {
-            console.log(
-              eadKey,
-              matchedSequences.map((s) =>
-                s.map(
-                  (s: Statement) =>
-                    `${new Date(
-                      s.context?.extensions.timestamp ?? ""
-                    ).toLocaleString("pt-PT")} - ${s.actor.name} ${
-                      s.verb.display
-                    } ${s.object.definition.name} no ${s.place.name}`
-                )
-              ),
-              matchedSequences.map((s) => {
-                if (s.length > 0) {
-                  const eadStatement = this.transformIntoEadStatement(
-                    s[0],
-                    eadKey as keyof typeof EadForumStatementId
-                  );
-                  return `${eadStatement.actor.name} ${eadStatement.verb.display} ${eadStatement.object.definition.name} no ${eadStatement.place.name}`;
-                }
-              })
+            // console.log(
+            //   eadKey,
+            //   matchedSequences.map((s) =>
+            //     s.map((s: Statement) => s.toNaturalLanguage(true))
+            //   ),
+            //   matchedSequences.map((s) => {
+            //     if (s.length > 0) {
+            //       const eadStatement = this.transformIntoEadStatement(
+            //         s[0],
+            //         eadKey as keyof typeof EadForumStatementId
+            //       );
+            //       return `${eadStatement.actor.name} ${eadStatement.verb.display} ${eadStatement.object.definition.name} no ${eadStatement.place.name}`;
+            //     }
+            //   })
+            // );
+
+            for (const matchedSequence of matchedSequences) {
+              choreographies.push(
+                new Choreography({
+                  name: eadKey,
+                  statements: [
+                    this.transformIntoEadStatement(
+                      matchedSequence[0],
+                      eadKey as keyof typeof EadForumStatementId
+                    ),
+                  ],
+                })
+              );
+            }
+
+            // Remove the statements that were matched
+            const statementsToRemove = matchedSequences.flat().map((s) => s.id);
+            curStatements = placeStatements.filter(
+              (s) => !statementsToRemove.includes(s.id)
             );
-            break;
           }
         }
       }
     }
 
-    return null;
+    return choreographies;
   }
 
   private findMatchingSequences(
@@ -101,27 +113,34 @@ export class GetVirtualChoreographiesUseCase {
 
     const matchedSequences: Statement[][] = [];
     let matchedStatements: Statement[] = [];
-    let remainingStatements = [...statements];
+    let lastMatchedStatementIndex = -1;
 
-    while (remainingStatements.length > 0) {
-      for (const element of sequenceToMatch) {
-        const matchingStatementIndex = remainingStatements.findIndex(
-          (statement) => statementMatcherHelper.compare(statement, element)
+    for (let i = 0; i < statements.length; i++) {
+      const currentStatement = statements[i];
+
+      if (
+        statementMatcherHelper.compare(
+          currentStatement,
+          sequenceToMatch[matchedStatements.length]
+        )
+      ) {
+        matchedStatements.push(currentStatement);
+        lastMatchedStatementIndex = i;
+
+        if (matchedStatements.length === sequenceToMatch.length) {
+          matchedSequences.push(matchedStatements);
+          matchedStatements = [];
+        }
+      } else if (lastMatchedStatementIndex !== -1) {
+        const lastMatchedStatement = statements[lastMatchedStatementIndex];
+        const timeDiff = statementMatcherHelper.getTimeDifferenceInMS(
+          currentStatement,
+          lastMatchedStatement
         );
 
-        if (matchingStatementIndex !== -1) {
-          const matchingStatement = remainingStatements[matchingStatementIndex];
-          matchedStatements.push(matchingStatement);
-          remainingStatements.splice(0, matchingStatementIndex);
-
-          if (matchedStatements.length === sequenceToMatch.length) {
-            matchedSequences.push([...matchedStatements]);
-            matchedStatements = [];
-            break;
-          }
-        } else {
-          remainingStatements = [];
-          break;
+        if (timeDiff > 10800000) {
+          matchedStatements = [];
+          lastMatchedStatementIndex = -1;
         }
       }
     }
