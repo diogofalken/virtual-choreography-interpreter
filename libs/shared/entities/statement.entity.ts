@@ -81,13 +81,31 @@ export class Statement extends BaseEntity {
     };
   }
 
+  public toNaturalLanguage(withTimestamp = false): string {
+    let timestamp = "";
+    if (withTimestamp) {
+      timestamp += `${new Date(
+        this.context?.extensions.timestamp ?? ""
+      ).toLocaleString("pt-PT")} - `;
+    }
+
+    return `${timestamp}${this.#actor.name} ${this.#verb.display} ${
+      this.#object.definition.name
+    } no ${this.#place.name}`;
+  }
+
   #parseTimestamp(timestamp: string): string | null {
     const isoDate = DateTime.fromISO(timestamp);
     if (isoDate.isValid) {
       return isoDate.toISO();
     }
 
-    const otherDateFormats = ["M/dd/yy 'às' HH:mm", "dd/MM/yy 'às' HH:mm"];
+    const otherDateFormats = [
+      "M/dd/yy 'às' HH:mm",
+      "dd/MM/yy 'às' HH:mm",
+      "dd/MM/yy, HH:mm",
+      "M/dd/yy, HH:mm",
+    ];
 
     for (const dateFormat of otherDateFormats) {
       const parsedDate = DateTime.fromFormat(timestamp, dateFormat);
