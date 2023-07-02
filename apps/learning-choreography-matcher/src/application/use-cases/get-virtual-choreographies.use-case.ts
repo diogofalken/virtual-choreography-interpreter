@@ -1,11 +1,11 @@
 import { randomUUID } from "crypto";
 import { Choreography, Statement } from "shared/entities";
+import { EadStatement } from "../../domain/types/ead-statements.type";
 import {
-  EadForumStatementId,
-  EadStatement,
-  GENERATE_FORUM_STATEMENTS,
-  MOODLE_STATEMENT_MATCH,
-} from "../../ead-statements";
+  EAD_GENERATE_STATEMENTS,
+  EAD_STATEMENT_RULES,
+  EaDStatementType,
+} from "../configs/base-statements.config";
 import { StatementMatcherHelper } from "../helpers/statement-matcher.helper";
 
 type GetVirtualChoreographiesUseCaseInput = {
@@ -54,7 +54,7 @@ export class GetVirtualChoreographiesUseCase {
         .values()) {
         let curStatements = [...placeStatements];
         for (const [eadKey, eadStatements] of Object.entries(
-          MOODLE_STATEMENT_MATCH
+          EAD_STATEMENT_RULES
         )) {
           const matchedSequences = this.findMatchingSequences(
             curStatements,
@@ -71,7 +71,7 @@ export class GetVirtualChoreographiesUseCase {
             //     if (s.length > 0) {
             //       const eadStatement = this.transformIntoEadStatement(
             //         s[0],
-            //         eadKey as keyof typeof EadForumStatementId
+            //         eadKey as EaDStatementType
             //       );
             //       return `${eadStatement.actor.name} ${eadStatement.verb.display} ${eadStatement.object.definition.name} no ${eadStatement.place.name}`;
             //     }
@@ -85,7 +85,7 @@ export class GetVirtualChoreographiesUseCase {
                   statements: [
                     this.transformIntoEadStatement(
                       matchedSequence[0],
-                      eadKey as keyof typeof EadForumStatementId
+                      eadKey as EaDStatementType
                     ),
                   ],
                 })
@@ -101,6 +101,12 @@ export class GetVirtualChoreographiesUseCase {
         }
       }
     }
+
+    console.log(
+      choreographies.map((c) =>
+        c.statements.map((s) => `${c.name} | ${s.toNaturalLanguage()}`)
+      )
+    );
 
     return choreographies;
   }
@@ -150,12 +156,12 @@ export class GetVirtualChoreographiesUseCase {
 
   private transformIntoEadStatement(
     statement: Statement,
-    key: keyof typeof EadForumStatementId
+    key: EaDStatementType
   ): Statement {
     const regex = new RegExp(/{{\s*(\w+)\s*}}/gi);
 
     let generateStringified = JSON.stringify(
-      GENERATE_FORUM_STATEMENTS[key]?.toJson()
+      EAD_GENERATE_STATEMENTS[key]?.toJson()
     );
 
     const matches = (generateStringified.match(regex) || []).map((e) =>
