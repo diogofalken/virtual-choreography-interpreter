@@ -96,13 +96,12 @@ export class Recipe extends BaseEntity {
 
   public toJson() {
     return {
-      [this.#name]: {
-        actors: this.#actors,
-        verbs: this.#verbs,
-        objects: this.#objects,
-        places: this.#places,
-        contexts: this.#contexts,
-      },
+      name: this.#name,
+      actors: this.#actors,
+      verbs: this.#verbs,
+      objects: this.#objects,
+      places: this.#places,
+      contexts: this.#contexts,
     };
   }
 
