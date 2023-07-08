@@ -1,6 +1,8 @@
 import cors from "cors";
 import express, { Request, Response } from "express";
 import helmet from "helmet";
+import morgan from "morgan";
+
 import { GetChoreographiesController } from "../../adapters/controllers/get-choreographies.controller";
 import { GetVirtualChoreographiesUseCase } from "../../application/use-cases/get-virtual-choreographies.use-case";
 import { GetChoreographiesSchema } from "./validators/get-choreographies.schema";
@@ -9,6 +11,7 @@ const app = express();
 
 app.use(cors());
 app.use(helmet());
+app.use(morgan("combined"));
 app.use(express.json());
 
 const getChoreographiesController = new GetChoreographiesController(

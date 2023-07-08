@@ -84,7 +84,7 @@ export class GetVirtualChoreographiesUseCase {
                   name: eadKey,
                   statements: [
                     this.transformIntoEadStatement(
-                      matchedSequence[0],
+                      matchedSequence[matchedSequence.length - 1],
                       eadKey as EaDStatementType
                     ),
                   ],
@@ -101,12 +101,6 @@ export class GetVirtualChoreographiesUseCase {
         }
       }
     }
-
-    console.log(
-      choreographies.map((c) =>
-        c.statements.map((s) => `${c.name} | ${s.toNaturalLanguage()}`)
-      )
-    );
 
     return choreographies;
   }
@@ -195,6 +189,11 @@ export class GetVirtualChoreographiesUseCase {
       );
     });
 
-    return new Statement({ ...JSON.parse(generateStringified) });
+    return new Statement({
+      ...JSON.parse(generateStringified),
+      context: {
+        extensions: { timestamp: jsonStatement.context?.extensions.timestamp },
+      },
+    });
   }
 }

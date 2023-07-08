@@ -2,7 +2,9 @@ import cors from "cors";
 import express, { Request, Response } from "express";
 import helmet from "helmet";
 import multer, { FileFilterCallback } from "multer";
+import morgan from "morgan";
 import path, { extname } from "path";
+
 import { CreateSourceController } from "../../adapters/controllers/sources/create-source.controller";
 import { GetSourceController } from "../../adapters/controllers/sources/get-source.controller";
 import { ExcelFileRetrievalStrategy } from "../../application/strategies/file-data-retrieval/excel-file-retrieval-strategy";
@@ -20,6 +22,7 @@ const app = express();
 
 app.use(cors());
 app.use(helmet());
+app.use(morgan("combined"));
 app.use(express.json());
 
 // Multer config
