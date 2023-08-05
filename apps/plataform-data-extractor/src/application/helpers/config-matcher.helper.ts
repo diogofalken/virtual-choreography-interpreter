@@ -24,32 +24,52 @@ export class ConfigMatcherHelper {
   ): Statement | undefined {
     for (const rule of config) {
       const { pattern, generate } = rule;
-      const key = Object.keys(pattern)[0]; // TODO: change this to check all the keys instead of just PT
 
-      if (pattern[key].pt === log[key]) {
-        const regex = new RegExp(/{{\s*(\w+)\s*}}/gi);
-
-        let generateStringified = JSON.stringify(generate);
-
-        const matches = (generateStringified.match(regex) || []).map((e) =>
-          e.replace(regex, "$1")
-        );
-
-        matches.forEach((match: string) => {
-          let value = log[match] ?? "";
-
-          if (match === "randomUUID") {
-            value = randomUUID();
+      try {
+        if (pattern) {
+          for (const key of Object.keys(pattern)) {
+            if (pattern[key].pt === log[key]) {
+              return this.transformLog(log, generate, sourceId);
+            }
           }
-
-          generateStringified = generateStringified.replace(
-            `{{ ${match} }}`,
-            value
-          );
-        });
-
-        return new Statement({ ...JSON.parse(generateStringified), sourceId });
+        } else {
+          return this.transformLog(log, generate, sourceId);
+        }
+      } catch (err) {
+        console.error(err, log);
       }
     }
+  }
+
+  private transformLog(
+    log: Record<string, string>,
+    generate: BaseRuleConfig["generate"],
+    sourceId: string
+  ) {
+    const regex = new RegExp(/{{\s*(\w+)\s*}}/gi);
+
+    let generateStringified = JSON.stringify(generate);
+
+    const matches = (generateStringified.match(regex) || []).map((e) =>
+      e.replace(regex, "$1")
+    );
+
+    matches.forEach((match: string) => {
+      let value = log[match] ?? "";
+
+      if (match === "randomUUID") {
+        value = randomUUID();
+      }
+
+      generateStringified = generateStringified.replace(
+        `{{ ${match} }}`,
+        value
+      );
+    });
+
+    return new Statement({
+      ...JSON.parse(generateStringified),
+      sourceId,
+    });
   }
 }

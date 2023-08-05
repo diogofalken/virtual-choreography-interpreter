@@ -9,9 +9,11 @@ import {
 import { MoodleLog } from "./moodle.config";
 
 export type BaseRuleConfig = {
-  pattern: {
-    [key: string]: Record<LanguageKeys, string>;
-  };
+  pattern:
+    | undefined
+    | {
+        [key: string]: Record<LanguageKeys, string>;
+      };
   generate: {
     actor: ActorType;
     verb: VerbType;
