@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 
-type BaseEntityProps = {
+export type BaseEntityProps = {
   id?: string;
   createdAt?: Date;
   updatedAt?: Date;

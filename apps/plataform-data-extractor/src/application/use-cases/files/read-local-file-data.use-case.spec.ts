@@ -5,12 +5,12 @@ import { ExcelFileRetrievalStrategy } from "../../strategies/file-data-retrieval
 import { ReadLocalFileDataUseCase } from "./read-local-file-data.use-case";
 
 describe("ReadLocalFileDataUseCase", () => {
-  it("should read local file data", async () => {
-    const sut = new ReadLocalFileDataUseCase(
-      new SourceInMemoryRepository(),
-      new ExcelFileRetrievalStrategy()
-    );
+  const sut = new ReadLocalFileDataUseCase(
+    new SourceInMemoryRepository(),
+    new ExcelFileRetrievalStrategy()
+  );
 
+  it("should read local file data", async () => {
     const result = await sut.execute({ fileName: "logs_2019_2020_min.xlsx" });
 
     expect(result.logs[0]).toMatchObject({
@@ -26,5 +26,11 @@ describe("ReadLocalFileDataUseCase", () => {
       origin: "web",
       ip: "192.168.16.142",
     });
+  });
+
+  it("should throw error if file columns are invalid", async () => {
+    await expect(
+      sut.execute({ fileName: "logs_invalid_columns.xlsx" })
+    ).rejects.toThrowError("Invalid file columns");
   });
 });
