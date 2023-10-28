@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { ExcelFileRetrievalStrategy } from "./excel-file-retrieval-strategy";
 
 describe("ExcelFileRetrievalStrategy", () => {
-  it("test", async () => {
+  it("retrieve and transform the data", async () => {
     const strategy = new ExcelFileRetrievalStrategy();
 
     const filePath = path.resolve(
@@ -12,10 +12,12 @@ describe("ExcelFileRetrievalStrategy", () => {
       "../../../infra/data/logs_2019_2020_min.xlsx"
     );
 
-    await strategy.retrieveData(filePath);
+    const result = await strategy.retrieveData(filePath);
 
-    // const objArray = strategy.toObjectArray(result.columns, result.rows);
+    const objArray = strategy.toObjectArray(result.columns, result.rows);
 
-    expect(true).equals(true);
+    expect(result.columns).toHaveLength(9);
+    expect(result.rows).toHaveLength(432);
+    expect(objArray).toHaveLength(432);
   });
 });

@@ -25,9 +25,7 @@ export class ExportSourceUseCase {
     }
 
     const data: Partial<Record<"source" | "recipe" | "statements", JSONValue>> =
-      {
-        source: source.toJson(),
-      };
+      { source: source.toJson() };
 
     if (input.type.includes("RECIPE") || input.type.length === 0) {
       const recipe = await this.recipeRepository.findBySourceId(source.id);

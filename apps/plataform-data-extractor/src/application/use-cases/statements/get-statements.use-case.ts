@@ -2,9 +2,7 @@ import { Statement } from "shared/entities";
 import { StatementRepository } from "shared/repositories";
 
 type GetStatementsUseCaseInput = {
-  filters?: {
-    sourceId?: string;
-  };
+  filters?: { sourceId?: string };
 };
 
 type GetStatementsUseCaseOutput = Statement[];

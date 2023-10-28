@@ -23,8 +23,6 @@ export type BaseRuleConfig = {
   };
 };
 
-export type LogTypeByConfig = {
-  MOODLE_CONFIG: MoodleLog;
-};
+export type LogTypeByConfig = { MOODLE_CONFIG: MoodleLog };
 
 export type MatchConfigTypes = "MOODLE_CONFIG";

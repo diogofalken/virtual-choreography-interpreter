@@ -4,8 +4,10 @@ import { SourceInMemoryRepository } from "../../../infra/db/in-memory/source-in-
 import { StatementInMemoryRepository } from "../../../infra/db/in-memory/statement-in-memory.repository";
 import { ExcelFileRetrievalStrategy } from "../../strategies/file-data-retrieval/excel-file-retrieval-strategy";
 import { ReadLocalFileDataUseCase } from "../files/read-local-file-data.use-case";
+import { WriteLocalFileUsecase } from "../files/write-local-file.use-case";
 import { CreateRecipeUseCase } from "../recipes/create-recipe.use-case";
 import { CreateStatementsFromLogsUseCase } from "../statements/create-statements-from-logs.use-case";
+import { ExportSourceUseCase } from "./export-source.use-case";
 
 describe("ExportSourceUseCase", () => {
   it("should export a source with statements and recipe", async () => {
@@ -42,20 +44,19 @@ describe("ExportSourceUseCase", () => {
       sourceId: readLocalFileData.sourceId,
     });
 
-    // console.log(recipe.toJson());
+    const exportSourceUseCase = new ExportSourceUseCase(
+      sourceRepository,
+      recipeRepository,
+      statementRepository,
+      new WriteLocalFileUsecase()
+    );
 
-    // const exportSourceUseCase = new ExportSourceUseCase(
-    //   sourceRepository,
-    //   recipeRepository,
-    //   statementRepository,
-    //   new WriteLocalFileUsecase()
-    // );
+    const result = await exportSourceUseCase.execute({
+      sourceId: readLocalFileData.sourceId,
+      type: ["RECIPE", "STATEMENTS"],
+    });
 
-    // await exportSourceUseCase.execute({
-    //   sourceId: readLocalFileData.sourceId,
-    //   type: ["RECIPE", "STATEMENTS"],
-    // });
-
-    expect(true).toBe(true);
+    expect(result.recipe).toBeDefined();
+    expect(result.statements).toBeDefined();
   });
 });
