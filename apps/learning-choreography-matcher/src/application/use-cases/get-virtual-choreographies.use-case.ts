@@ -13,6 +13,9 @@ type GetVirtualChoreographiesUseCaseInput = {
 };
 type GetVirtualChoreographiesUseCaseOutput = Choreography[];
 
+// TODO: this should be a environment variable.
+const VALID_CHOREOGRAPHY_TIMEFRAME_IN_MS = 10800000;
+
 export class GetVirtualChoreographiesUseCase {
   async execute(
     input: GetVirtualChoreographiesUseCaseInput
@@ -62,22 +65,6 @@ export class GetVirtualChoreographiesUseCase {
           );
 
           if (matchedSequences.length > 0) {
-            // console.log(
-            //   eadKey,
-            //   matchedSequences.map((s) =>
-            //     s.map((s: Statement) => s.toNaturalLanguage(true))
-            //   ),
-            //   matchedSequences.map((s) => {
-            //     if (s.length > 0) {
-            //       const eadStatement = this.transformIntoEadStatement(
-            //         s[0],
-            //         eadKey as EaDStatementType
-            //       );
-            //       return `${eadStatement.actor.name} ${eadStatement.verb.display} ${eadStatement.object.definition.name} no ${eadStatement.place.name}`;
-            //     }
-            //   })
-            // );
-
             for (const matchedSequence of matchedSequences) {
               choreographies.push(
                 new Choreography({
@@ -138,7 +125,7 @@ export class GetVirtualChoreographiesUseCase {
           lastMatchedStatement
         );
 
-        if (timeDiff > 10800000) {
+        if (timeDiff > VALID_CHOREOGRAPHY_TIMEFRAME_IN_MS) {
           matchedStatements = [];
           lastMatchedStatementIndex = -1;
         }

@@ -1,5 +1,7 @@
-// This file contains all the configs related with Forum
-// that were identified in the State of the art
+/**
+ * This file contains all the configs related with Forum that were identified in the State of the art
+ * The proccess of a config creation is described in the dissertation
+ */
 
 import { randomUUID } from "crypto";
 import { Statement } from "shared/entities";
