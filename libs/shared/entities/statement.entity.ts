@@ -19,9 +19,6 @@ export type StatementProps = {
   context?: ContextType;
 };
 
-/**
- * Criar mecanismo para retornar que X id corresponde a X actor ou statement
- */
 export class Statement extends BaseEntity {
   readonly #sourceId: string;
   #actor: ActorType;

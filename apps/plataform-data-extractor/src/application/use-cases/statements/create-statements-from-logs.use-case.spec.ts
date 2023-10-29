@@ -53,6 +53,6 @@ describe("CreateStatementsFromLogsUseCase", () => {
       config: "MOODLE_CONFIG",
     });
 
-    expect(true).toBe(true);
+    expect(result).toHaveLength(2);
   });
 });

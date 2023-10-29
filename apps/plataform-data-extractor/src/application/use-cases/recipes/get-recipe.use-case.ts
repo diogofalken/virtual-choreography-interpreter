@@ -1,9 +1,7 @@
 import { Recipe } from "shared/entities";
 import { RecipeRepository } from "shared/repositories";
 
-export type GetRecipeUseCaseInput = {
-  id: string;
-};
+export type GetRecipeUseCaseInput = { id: string };
 export type GetRecipeUseCaseOutput = Recipe | null;
 
 export class GetRecipeUseCase {

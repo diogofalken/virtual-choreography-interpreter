@@ -30,7 +30,7 @@ export class ReadLocalFileDataUseCase {
 
     const result = await this.fileDataRetrievalStrategy.retrieveData(filePath);
 
-    // TODO: In future pass the config
+    // TODO: In future pass the config, by default we are using the MOODLE config
     if (!this.isValidColumns(result.columns)) {
       throw new Error("Invalid file columns");
     }
@@ -43,10 +43,7 @@ export class ReadLocalFileDataUseCase {
     const source = new Source({ name: input.fileName, type: "file" });
     await this.sourceRepository.create(source);
 
-    return {
-      sourceId: source.id,
-      logs,
-    };
+    return { sourceId: source.id, logs };
   }
 
   private isValidColumns(columns: string[], config = "MOODLE_CONFIG"): boolean {
